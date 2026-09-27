@@ -1,0 +1,37 @@
+# 1. Set default behavior: auto-normalize all text files to LF in repo
+* text=auto
+ 
+# 2. Explicitly enforce LF line endings for scripts that execute in Unix/Linux
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+Dockerfile text eol=lf
+Makefile text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+ 
+# 3. Explicitly enforce CRLF for Windows-specific script files
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+ 
+# 4. Mark binary assets explicitly to prevent line ending corruption
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.woff binary
+*.woff2 binary

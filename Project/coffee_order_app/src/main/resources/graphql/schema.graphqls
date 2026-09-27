@@ -1,0 +1,40 @@
+# Coffee Order Data Type
+type CoffeeOrder {
+    id: ID!
+    customerName: String!
+    drinkType: String!
+    drinkSize: String!
+    milkType: String
+    quantity: Int!
+    unitPrice: Float!
+    extraShots: Int!
+    milkSurcharge: Float!
+    orderStatus: String!
+}
+
+# Input type for creating or updating orders
+input CoffeeOrderInput {
+    customerName: String!
+    drinkType: String!
+    drinkSize: String!
+    milkType: String
+    quantity: Int!
+    unitPrice: Float!
+    extraShots: Int
+    milkSurcharge: Float
+    orderStatus: String
+}
+
+# Fetching Data
+type Query {
+    allOrders: [CoffeeOrder]!
+    orderById(id: ID!): CoffeeOrder
+    ordersByStatus(status: String!): [CoffeeOrder]!
+}
+
+# Modifying Data
+type Mutation {
+    createOrder(input: CoffeeOrderInput!): CoffeeOrder!
+    updateOrderStatus(id: ID!, status: String!): CoffeeOrder!
+    deleteOrder(id: ID!): Boolean!
+}

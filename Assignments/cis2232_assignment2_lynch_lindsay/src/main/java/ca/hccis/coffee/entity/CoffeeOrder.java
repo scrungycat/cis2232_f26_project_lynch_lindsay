@@ -1,18 +1,24 @@
-package ca.hccis.files.entity;
+package ca.hccis.coffee.entity;
 
-import ca.hccis.files.util.CisUtility;
+import ca.hccis.coffee.util.CisUtility;
 
 /**
  * Order entity class manages each order object
  * Formats program flow in getInformation
  * Formats gathered data for .json file read/write
- * CIS 2232 | Assignment 1
+ * CIS 2232 | Assignment 1 & 2
+ *
+ * @updated 09252026:
+ *          - moved calculations to CoffeeOrderBO
+ *          - adjusted output formatting
+ *          - update overloaded method with correct param order
+ *          - added getters/setters for calculations
  *
  * @author LRML
  * @since 09222026
  */
 
-public class Order {
+public class CoffeeOrder {
 
     private int id;
     private String customerName;
@@ -23,16 +29,20 @@ public class Order {
     private double unitPrice;
     private int extraShots;
     private double milkSurcharge;
+    private double subtotal;
+    private double tax;
+    private double grandTotal;
     private String orderStatus;
 
     // Default constructor
-    public Order() {
+    public CoffeeOrder() {
     }
 
     // Base constructor
-    public Order(int id, String customerName, String drinkType, String drinkSize,
-                 String milkType, int quantity, double unitPrice, int extraShots,
-                 double milkSurcharge, String orderStatus) {
+    public CoffeeOrder(int id, String customerName, String drinkType, String drinkSize,
+                       String milkType, int quantity, double unitPrice, int extraShots,
+                       double milkSurcharge, double subtotal, double tax, double grandTotal,
+                       String orderStatus) {
         this.id = id;
         this.customerName = customerName;
         this.drinkType = drinkType;
@@ -42,6 +52,9 @@ public class Order {
         this.unitPrice = unitPrice;
         this.extraShots = extraShots;
         this.milkSurcharge = milkSurcharge;
+        this.subtotal = subtotal;
+        this.tax = tax;
+        this.grandTotal = grandTotal;
         this.orderStatus = orderStatus;
     }
 
@@ -126,22 +139,28 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    /**
-     * Formats gathered data for toString
-     * Outputs in both console and .json
-     *
-     * @author LRML
-     * @since 09222026
-     */
-    @Override
-    public String toString() {
-        return String.format(
-                "Order ID: %d | Customer: %s | Drink: %s (%s) | Qty: %d | Milk: %s " +
-                        "| Extra Shots: %d | Unit Price: $%.2f | Milk Surcharge: $%.2f " +
-                        "| Subtotal: $%.2f | Status: %s",
-                id, customerName, drinkType, drinkSize, quantity, milkType, extraShots,
-                unitPrice, milkSurcharge, calculateSubtotal(), orderStatus
-        );
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public double getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
     }
 
     /**
@@ -155,41 +174,34 @@ public class Order {
         this.customerName = CisUtility.getInputString(
                 "Enter customer name: ");
         this.drinkType = CisUtility.getInputString(
-                "Enter drink type (Brewed coffee, latte, cappuccino, americano): ");
+                "Enter drink type (Coffee, Latte, Cappuccino, Americano): ");
         this.drinkSize = CisUtility.getInputString(
-                "Enter drink size (Small, medium, large): ");
+                "Enter drink size (Small, Medium, or Large): ");
         this.milkType = CisUtility.getInputString(
-                "Enter milk type (None, whole, oat, almond): ");
-        this.quantity = CisUtility.getInputInt(
-                "Enter quantity: ");
+                "Enter milk type (None, Whole, Oat, Almond): ");
         this.extraShots = CisUtility.getInputInt(
-                "Enter extra shots count: ");
+                "Enter the number of extra espresso shots desired, or 0 for none: ");
+        this.quantity = CisUtility.getInputInt(
+                "Enter quantity of this drink you'd like: ");
         this.orderStatus = CisUtility.getInputString(
                 "Enter order status (Pending, preparing, completed, cancelled): ");
-
-        if(this.drinkSize.equalsIgnoreCase("Small")) {
-            this.unitPrice = 2.00;
-        }else if (this.drinkSize.equalsIgnoreCase("Medium")) {
-            this.unitPrice = 3.00;
-        }else if(this.drinkSize.equalsIgnoreCase("Large")) {
-            this.unitPrice = 4.00;
-        }
-
-        if (this.milkType.equalsIgnoreCase("oat") || this.milkType.equalsIgnoreCase("almond")) {
-            this.milkSurcharge = 0.75;
-        } else {
-            this.milkSurcharge = 0.00;
-        }
     }
 
     /**
-     * Calculation - started for A2
+     * Formats gathered order data for toString
+     * Outputs in both console and .json
      *
      * @author LRML
      * @since 09222026
      */
-    public double calculateSubtotal() {
-        double extraShotCharge = this.extraShots * 1.00;
-        return (this.unitPrice + extraShotCharge + this.milkSurcharge) * this.quantity;
+    @Override
+    public String toString() {
+        return String.format(
+                "Order ID: %d | Customer: %s | Drink Type: %s (%s) | Qty: %d | Milk: %s " +
+                        "| Extra Shots: %d | Unit Price: $%.2f | Milk Surcharge: $%.2f " +
+                        "| Subtotal: $%.2f | Tax: $%.2f | Grand Total: $%.2f | Status: %s",
+                id, customerName, drinkType, drinkSize, quantity, milkType, extraShots,
+                unitPrice, milkSurcharge, subtotal, tax, grandTotal, orderStatus
+        );
     }
 }

@@ -1,7 +1,8 @@
-package ca.hccis.files;
+package ca.hccis.coffee;
 
-import ca.hccis.files.entity.Order;
-import ca.hccis.files.util.CisUtility;
+import ca.hccis.coffee.bo.CoffeeOrderBO;
+import ca.hccis.coffee.entity.CoffeeOrder;
+import ca.hccis.coffee.util.CisUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 /**
  * Main entrypoint controller for Trident Roastery application
- * CIS 2232 | Assignment 1
+ * CIS 2232 | Assignment 1 & 2
  *
  * @author LRML
  * @since 09152026
@@ -37,7 +38,7 @@ public class Controller {
                     "V) View\n" +
                     "X) Exit \n";
 
-    private static HashMap<Integer, Order> orderMap = new HashMap();
+    private static HashMap<Integer, CoffeeOrder> orderMap = new HashMap<>();
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final String PATH_NAME = "c:\\cis2232\\data_lynch_lindsay.json";
 
@@ -70,22 +71,30 @@ public class Controller {
     /**
      * Processes first menu option (A - Add order)
      *
+     * @updated 09252026 to include call to CoffeeOrderBO
+     *
      * @author LRML
      * @since 09152026
      */
     public static void add() {
         System.out.println("--Add Order--");
 
-        Order newOrder = new Order();
-        newOrder.getInformation();
+        CoffeeOrder newCoffeeOrder = new CoffeeOrder();
+        newCoffeeOrder.getInformation();
+
+        //New call to CoffeeOrderBO to run calculations separate from entity
+        CoffeeOrderBO.calculateSubtotal(newCoffeeOrder);
+        CoffeeOrderBO.calculateTax(newCoffeeOrder);
+        CoffeeOrderBO.calculateGrandTotal(newCoffeeOrder);
+
 
         // Auto-assign next integer ID if ID is 0 or unassigned
-        if (newOrder.getId() == 0) {
+        if (newCoffeeOrder.getId() == 0) {
             int maxId = orderMap.keySet().stream().mapToInt(v -> v).max().orElse(0);
-            newOrder.setId(maxId + 1);
+            newCoffeeOrder.setId(maxId + 1);
         }
 
-        orderMap.put(newOrder.getId(), newOrder);
+        orderMap.put(newCoffeeOrder.getId(), newCoffeeOrder);
         writeAll();
         System.out.println(MSG_SUCCESS);
     }
@@ -104,7 +113,7 @@ public class Controller {
             System.out.println("No orders found.");
 
         } else {
-            for (Map.Entry<Integer, Order> entry : orderMap.entrySet()) {
+            for (Map.Entry<Integer, CoffeeOrder> entry : orderMap.entrySet()) {
                 System.out.println("Order ID " + entry.getKey() + ": " + entry.getValue());
             }
         }
@@ -123,7 +132,6 @@ public class Controller {
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
-
     }
 
     /**
@@ -140,9 +148,9 @@ public class Controller {
         }
 
         try (FileReader reader = new FileReader(file)) {
-            Type type = new TypeToken<HashMap<Integer, Order>>() {
+            Type type = new TypeToken<HashMap<Integer, CoffeeOrder>>() {
             }.getType();
-            HashMap<Integer, Order> loaded = gson.fromJson(reader, type);
+            HashMap<Integer, CoffeeOrder> loaded = gson.fromJson(reader, type);
             if (loaded != null) {
                 orderMap = loaded;
             }
@@ -150,7 +158,6 @@ public class Controller {
             System.err.println("Error reading file: " + e.getMessage());
         }
     }
-
 
     public static void initialize() {
 
@@ -171,45 +178,25 @@ public class Controller {
             readAll();
         } else {
             // Add initial default order and save file if starting fresh
-            Order defaultOrder = new Order();
-            defaultOrder.setId(1);
-            defaultOrder.setCustomerName("Default Customer");
-            defaultOrder.setDrinkType("Brewed Coffee");
-            defaultOrder.setDrinkSize("Medium");
-            defaultOrder.setMilkType("None");
-            defaultOrder.setQuantity(1);
-            defaultOrder.setUnitPrice(2.50);
-            defaultOrder.setExtraShots(0);
-            defaultOrder.setMilkSurcharge(0.0);
-            defaultOrder.setOrderStatus("Pending");
+            CoffeeOrder defaultCoffeeOrder = new CoffeeOrder();
 
-            orderMap.put(defaultOrder.getId(), defaultOrder);
+            defaultCoffeeOrder.setId(1);
+            defaultCoffeeOrder.setCustomerName("Default Customer");
+            defaultCoffeeOrder.setDrinkType("Brewed Coffee");
+            defaultCoffeeOrder.setDrinkSize("Medium");
+            defaultCoffeeOrder.setMilkType("None");
+            defaultCoffeeOrder.setQuantity(1);
+            defaultCoffeeOrder.setUnitPrice(0.00);
+            defaultCoffeeOrder.setExtraShots(0);
+            defaultCoffeeOrder.setMilkSurcharge(0.0);
+            CoffeeOrderBO.calculateSubtotal(defaultCoffeeOrder);
+            CoffeeOrderBO.calculateTax(defaultCoffeeOrder);
+            CoffeeOrderBO.calculateGrandTotal(defaultCoffeeOrder);
+            defaultCoffeeOrder.setOrderStatus("Pending");
+
+            orderMap.put(defaultCoffeeOrder.getId(), defaultCoffeeOrder);
             writeAll();
             System.out.println("Created new initial file at: " + PATH_NAME);
         }
-
-        // BJ example
-//        if (Files.exists(path)) {
-//            System.out.println("The orders file already exists!");
-//            readAll();
-//        } else {
-//            //add premade variables to fill file
-//            Order order = new Order();
-//
-//            orderMap.put(1, order);
-//        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

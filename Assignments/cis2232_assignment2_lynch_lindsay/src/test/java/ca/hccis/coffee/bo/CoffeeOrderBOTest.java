@@ -92,6 +92,9 @@ public class CoffeeOrderBOTest {
     /**
      * Test subtotal calculation for Large drink with Almond milk and no extra shots.
      * Large ($4.00) + Almond ($0.75) = $4.75 x Qty 1 = $4.75
+     *
+     * @author LRML & Gemini
+     * @since 10012026
      */
     @Test
     public void testCalculateSubtotal_LargeAlmondNoShots_ReturnsCorrectSubtotal() {
@@ -110,6 +113,9 @@ public class CoffeeOrderBOTest {
     /**
      * Test subtotal calculation with regular Whole milk (0.00 surcharge) and multiple extra shots.
      * Medium ($3.00) + Whole ($0.00) + 3 Extra Shots ($3.00) = $6.00 x Qty 3 = $18.00
+     *
+     * @author LRML & Gemini
+     * @since 10012026
      */
     @Test
     public void testCalculateSubtotal_MediumWholeMultipleShots_ReturnsCorrectSubtotal() {
@@ -127,6 +133,9 @@ public class CoffeeOrderBOTest {
     /**
      * Test subtotal calculation when milk type is "None".
      * Small ($2.00) + None ($0.00) = $2.00 x Qty 1 = $2.00
+     *
+     * @author LRML & Gemini
+     * @since 10012026
      */
     @Test
     public void testCalculateSubtotal_NoMilk_ZeroSurcharge() {

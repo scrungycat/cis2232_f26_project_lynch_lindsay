@@ -1,4 +1,4 @@
-// For demo to fit into DataTables site builder...
+//Unsure how much of this is needed yet so it'll stay for now (as of S2)
 $(document).ready(function () {
     $('#theData').dataTable();
     $('#theData')

@@ -2,7 +2,7 @@
 # creates fresh localhost db using variables that match java program user inputs
 # CIS-22332 | Coffee Order Application Project Database
 # Author: LRML
-# Since: 10/16/2026
+# Since: 10/16/2026 - 10/30/2026
 # Purpose: Filler data for initial creation of db
 # EDITED: Oct 16 through 29 to adjust column naming conventions, added date as varchar, added more sample data
 

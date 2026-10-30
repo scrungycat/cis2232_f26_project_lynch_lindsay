@@ -3,7 +3,7 @@ package ca.hccis.coffee.jpa.entity;
 import jakarta.persistence.*;
 
 /**
- * This maps the coffee order entity to MySQL
+ * This maps the coffee order entity to MySQL by matching variables with columns
  *
  * @author LRML
  * @since 09262026
@@ -46,7 +46,6 @@ public class CoffeeOrder {
     @Column(name = "orderDate")
     private String orderDate;
 
-    // Calculated fields managed entirely in Java BO (not stored in DB columns)
     @Transient
     private double subtotal;
 
@@ -56,10 +55,8 @@ public class CoffeeOrder {
     @Transient
     private double grandTotal;
 
-    // Required Default Constructor for JPA
     public CoffeeOrder() {}
 
-    // Getters and Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * CIS-2232 | Coffee Order Application Project | Business Object for Reporting
  * Sprint 2 Requirement
  * @author LRML
- * @since
+ * @since 10/16/2026 - 10/30/2026
  *
  * This BO holds the logic for mapping and processing report forms
  * logic here grabs all the order receipts - holds inputs/search fields,
@@ -19,16 +19,14 @@ import java.util.ArrayList;
 
 public class CoffeeOrderReportBO {
 
-    // Search Criteria Inputs
-    private int id; // For Customer Receipt by ID
-    private String startDate; // For Sales Review
-    private String endDate;   // For Sales Review
+    private int id;
+    private String startDate;
+    private String endDate;
 
-    // Result Containers
-    private CoffeeOrder singleOrder; // For receipt
-    private ArrayList<CoffeeOrder> coffeeOrders; // For sales review list
+    // Receipt and sale reports
+    private CoffeeOrder singleOrder;
+    private ArrayList<CoffeeOrder> coffeeOrders;
 
-    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

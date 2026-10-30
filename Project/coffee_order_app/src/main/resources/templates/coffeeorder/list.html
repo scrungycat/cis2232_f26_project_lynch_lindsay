@@ -1,14 +1,12 @@
 <!--
 CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
-
-List order page
+"List all orders" page
 Compiles all database orders in paginated table format to neatly organize and display orders on file
 Connected to database
 
 Author: LRML
 Since: 10/16/2026
 -->
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: headerFragment}">
@@ -18,7 +16,8 @@ Since: 10/16/2026
 <nav th:replace="~{fragments/navHeader :: navbar}"></nav>
 <div class="container my-4">
 
-    <div th:if="${messageSuccess}" class="alert alert-success text-center shadow-sm" role="alert" th:text="${messageSuccess}"></div>
+    <div th:if="${messageSuccess}" class="alert alert-success text-center shadow-sm" role="alert"
+         th:text="${messageSuccess}"></div>
 
     <h2 class="mb-3 text-center" style="color: #6F4E37;">Coffee Orders List</h2>
 
@@ -47,7 +46,7 @@ Since: 10/16/2026
                 <td th:text="${current.drinkSize}"></td>
                 <td th:text="${current.quantity}" class="text-center"></td>
 
-                <!-- Calculations for each order -->
+                <!-- This runs calculations for each individual order since all the data isn't all included in the db -->
                 <td th:with="sub= ${(current.unitPrice + current.milkSurcharge + (current.extraShots * 1.00)) * current.quantity},
                   tot= ${ (sub + (sub * 0.15)) }"
                     th:text="${'$' + #numbers.formatDecimal(tot, 1, 2)}">
@@ -67,19 +66,20 @@ Since: 10/16/2026
                 </td>
             </tr>
 
-            <!-- Fallback if no data avail -->
+            <!-- Alt/failsafe if no data avail -->
             <tr th:if="${#lists.isEmpty(orders)}">
                 <td colspan="9" class="text-center text-muted py-4">
-                    No coffee orders found. Make sure the database is set up using the provided script! (resources/db/mysql/createDatabase.sql)
+                    No coffee orders found. Make sure the database is set up using the provided script!
+                    (resources/db/mysql/createDatabase.sql)
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Add new button -->
     <div class="text-center mt-3">
-        <a th:href="@{/coffeeorder/add}" class="btn btn-success" style="background-color: #6F4E37; border-color: #6F4E37;">
+        <a th:href="@{/coffeeorder/add}" class="btn btn-success"
+           style="background-color: #6F4E37; border-color: #6F4E37;">
             <i class="fas fa-plus"></i> Add New Coffee Order
         </a>
     </div>

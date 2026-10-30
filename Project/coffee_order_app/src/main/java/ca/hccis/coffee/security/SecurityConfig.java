@@ -12,6 +12,10 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Unsure if this is needed, keeping for now (as of S2)
+ */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

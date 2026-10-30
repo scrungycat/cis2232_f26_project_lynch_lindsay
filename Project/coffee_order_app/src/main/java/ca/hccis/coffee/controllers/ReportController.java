@@ -17,11 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/*
+/**
 * CIS-2232 | Coffee Order Application Project | Controller for Reporting
 * Sprint 2 Requirement
 * @author LRML
-* @since
+* @since 10/16/2026
 *
 * This controller allows mapping and processing for report outputs in browser
 * Pulls stats from database and pushes info to report charts

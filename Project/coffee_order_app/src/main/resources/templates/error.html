@@ -1,9 +1,11 @@
-<!--TODO: DELETE/EDIT THIS...
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Error failsafe page in case something goes completely off the rails
+Which it has several times so I love seeing this
 
 Author: LRML
 Since: 10/16/2026
 -->
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:include="~{fragments/head :: headerFragment}">
@@ -18,7 +20,6 @@ Since: 10/16/2026
             <i class="fas fa-exclamation-triangle"></i> <span th:text="#{label.error}">Error</span>
         </h2>
 
-        <!-- Dynamic error message from controller if available -->
         <p class="lead text-secondary mt-2" th:if="${errorDetails != null}" th:text="${errorDetails}">
             No detailed error information available. Sorry :(
         </p>
@@ -33,7 +34,6 @@ Since: 10/16/2026
         </div>
     </div>
 </div>
-
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

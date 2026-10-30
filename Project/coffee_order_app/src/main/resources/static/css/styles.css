@@ -1,5 +1,13 @@
+/*
+CIS-2232 | Coffee Order Application Project | Style Sheet
+Overall site styling for elements to help with consistency across all pages
+
+Author: LRML
+Since: 10/16/2026 - 10/30/2026
+ */
+
 /* ==========================================
-   BASE & ROOT VARIABLES
+            BASE PAGE VARIABLES
    ========================================== */
 html {
     overflow: auto !important;
@@ -7,12 +15,12 @@ html {
 }
 
 :root {
-    --main-color-light: #fcf8f2;   /* Soft warm cream background */
-    --main-color-primary: #6f4e37; /* Coffee brown accent */
-    --main-color-dark: #2b1810;    /* Dark espresso navbar/footer background */
+    --main-color-light: #fcf8f2;   /* backgrounds */
+    --main-color-primary: #6f4e37; /* accent-y */
+    --main-color-dark: #2b1810;    /* navbar/footer frag background */
     --main-color-text: #ffffff;    /* White text for navbar */
-    --main-color-bright: #d4a373;  /* Warm caramel title text */
-    --border-coffee: #d8c3b0;      /* Distinct border contrast color */
+    --main-color-bright: #d4a373;  /* title text */
+    --border-coffee: #d8c3b0;      /* border contrast color */
 }
 
 body {
@@ -24,7 +32,7 @@ body {
 }
 
 /* ==========================================
-   GLOBAL FOOTER STYLING (ESPRESSO)
+        FOOTER FRAG STYLING (ESPRESSO)
    ========================================== */
 footer, .footer, .ftr {
     background-color: var(--main-color-dark) !important;
@@ -48,7 +56,7 @@ footer a:hover, .footer a:hover, .ftr a:hover {
 }
 
 /* ==========================================
-   TABLE STYLING & HEADERS (COFFEE BROWN)
+        TABLE STYLING & HEADER FRAG
    ========================================== */
 th, tr, td {
     text-align: left;
@@ -72,7 +80,7 @@ tr:nth-child(even) {
 }
 
 /* ==========================================
-   NAVIGATION & TYPOGRAPHY UTILITIES
+                 NAV & TEXT
    ========================================== */
 .navbar-coffee {
     background-color: var(--main-color-primary) !important;
@@ -107,17 +115,15 @@ tr:nth-child(even) {
 }
 
 /* ==========================================
-   BOOTSTRAP THEME OVERRIDES (COFFEE PALETTE)
+            BOOTSTRAP OVERRIDES
    ========================================== */
 
-/* Pagination active state */
 .page-item.active .page-link {
     background-color: var(--main-color-primary) !important;
     border-color: var(--main-color-primary) !important;
     color: #ffffff !important;
 }
 
-/* Pagination links */
 .page-link {
     color: var(--main-color-primary) !important;
 }
@@ -128,7 +134,6 @@ tr:nth-child(even) {
     border-color: var(--border-coffee) !important;
 }
 
-/* Form input focus rings */
 .form-control:focus, .form-select:focus {
     border-color: var(--main-color-primary) !important;
     box-shadow: 0 0 0 0.25rem rgba(111, 78, 55, 0.25) !important;

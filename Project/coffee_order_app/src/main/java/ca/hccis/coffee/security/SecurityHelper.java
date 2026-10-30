@@ -5,6 +5,10 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Set;
 
+/**
+ * Unsure if this is needed, keeping for now (as of S2)
+ */
+
 @Component("securityHelper")
 public class SecurityHelper {
 
@@ -15,7 +19,7 @@ public class SecurityHelper {
 
     public boolean hasAllowedEmail(Jwt jwt) {
         String email = jwt.getClaimAsString("email");
-        return email != null && email.endsWith("gmail.com"); // Accept any Gmail address
-        // return email != null && ALLOWED_EMAILS.contains(email);  //one of the allowed emails
+        return email != null && email.endsWith("gmail.com");
+        // return email != null && ALLOWED_EMAILS.contains(email);
     }
 }

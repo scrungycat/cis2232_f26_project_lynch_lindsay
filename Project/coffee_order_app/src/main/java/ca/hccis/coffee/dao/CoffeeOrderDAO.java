@@ -11,6 +11,7 @@ import java.util.ArrayList;
  *
  * @author: LRML
  * @since: 10/16/2026
+ * @updated several times this month when adjusting variables and database script to hook everything up
  */
 
 public class CoffeeOrderDAO {
@@ -23,7 +24,7 @@ public class CoffeeOrderDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Gets Customer Receipt by Order ID requested by user
+    // Grabs Customer Receipt using ID requested by user
     public CoffeeOrder getOrderByID(int orderId) {
         CoffeeOrder order = null;
         String sql = "SELECT * FROM coffeeOrder WHERE id = ?";
@@ -85,5 +86,4 @@ public class CoffeeOrderDAO {
         }
         return orders;
     }
-
 }

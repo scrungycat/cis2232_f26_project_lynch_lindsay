@@ -1,10 +1,12 @@
-<!DOCTYPE html>
 <!--
-CIS-2232 | Coffee Order Application Project | HTML portal for receipt report requirement
-
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Receipt "printing" page
+User can enter an order ID, and a receipt pops out if it's in the system
 Displays page neatly for customer receipts for individual orders
--->
 
+Author: LRML
+Since: 10/16/2026
+-->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: headerFragment}">
@@ -16,26 +18,27 @@ Displays page neatly for customer receipts for individual orders
 <div class="container my-5">
     <h2 class="text-center mb-4">Customer Order Receipt</h2>
 
-    <!-- Search Form -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
             <form th:action="@{/report/receipt}" th:object="${reportInput}" method="post" class="card p-4 shadow-sm">
                 <div class="mb-3">
                     <label for="id" class="form-label">Enter an Order ID to print receipt:</label>
-                    <input type="number" id="id" th:field="*{id}" class="form-control" required />
+                    <input type="number" id="id" th:field="*{id}" class="form-control" required/>
                 </div>
-                <button type="submit" class="btn btn-primary w-100" style="background-color: #6F4E37; border-color: #6F4E37;">
+                <button type="submit" class="btn btn-primary w-100"
+                        style="background-color: #6F4E37; border-color: #6F4E37;">
                     Lookup Receipt
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Error Message -->
+    <!-- Failsafe/error catching for communication if something goes wrong or order isn't found/database broken or not populated -->
     <div th:if="${message}" class="alert alert-danger text-center" role="alert" th:text="${message}"></div>
-    <div th:if="${fileSavedMessage}" class="alert alert-success text-center" role="alert" th:text="${fileSavedMessage}"></div>
+    <div th:if="${fileSavedMessage}" class="alert alert-success text-center" role="alert"
+         th:text="${fileSavedMessage}"></div>
 
-    <!-- Receipt Display Card -->
+    <!-- Otherwise shows this neato lil receipt -->
     <div class="row justify-content-center" th:if="${reportInput.singleOrder != null}">
         <div class="col-md-8">
             <div class="card shadow">
@@ -44,7 +47,8 @@ Displays page neatly for customer receipts for individual orders
                 </div>
                 <div class="card-body">
                     <p><strong>Date:</strong> <span th:text="${reportInput.singleOrder.orderDate}"></span></p>
-                    <p><strong>Customer Name:</strong> <span th:text="${reportInput.singleOrder.customerName}"></span></p>
+                    <p><strong>Customer Name:</strong> <span th:text="${reportInput.singleOrder.customerName}"></span>
+                    </p>
                     <p><strong>Status:</strong> <span th:text="${reportInput.singleOrder.orderStatus}"></span></p>
 
                     <table class="table table-striped mt-3">
@@ -97,9 +101,7 @@ Displays page neatly for customer receipts for individual orders
             </div>
         </div>
     </div>
-
 </div>
-
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

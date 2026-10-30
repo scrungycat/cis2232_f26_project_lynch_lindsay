@@ -8,6 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Order Controller with hookups for creating new orders in-browser
+ * Connects to db to add new orders too!
+ *
+ * @author LRML
+ * @since 10/16/2026
+ */
+
 @Controller
 @RequestMapping("/coffeeorder")
 public class CoffeeOrderController {
@@ -43,19 +51,15 @@ public class CoffeeOrderController {
 
     @PostMapping("/submit")
     public String submitOrder(@ModelAttribute("coffeeOrder") CoffeeOrder coffeeOrder, RedirectAttributes redirectAttributes) {
-        // Run Business Object calculation logic
         CoffeeOrderBO.calculateSubtotal(coffeeOrder);
         CoffeeOrderBO.calculateTax(coffeeOrder);
         CoffeeOrderBO.calculateGrandTotal(coffeeOrder);
 
-        // Save to database
         _cor.save(coffeeOrder);
 
-        // Pass a success message to display on the redirect destination
         redirectAttributes.addFlashAttribute("messageSuccess",
                 "Successfully saved order for " + coffeeOrder.getCustomerName() + "!");
 
         return "redirect:/coffeeorder";
     }
-
 }

@@ -2,36 +2,34 @@
 # creates fresh localhost db using variables that match java program user inputs
 # CIS-22332 | Coffee Order Application Project Database
 # Author: LRML
-# Since:
-# Purpose: Basic filler information for database
+# Since: 10/16/2026
+# Purpose: Filler data for initial creation of db
+# EDITED: Oct 16 through 29 to adjust column naming conventions, added date as varchar, added more sample data
 
--- Drops db during resets in case of changes
 DROP DATABASE IF EXISTS cis2232_coffee_order_app;
 CREATE DATABASE cis2232_coffee_order_app;
 use cis2232_coffee_order_app;
 
--- Drops table during resets in case of changes
-DROP TABLE IF EXISTS coffee_order;
+DROP TABLE IF EXISTS coffeeOrder;
 
-CREATE TABLE coffee_order
+CREATE TABLE coffeeOrder
 (
     id             INT           AUTO_INCREMENT PRIMARY KEY,
-    customer_name  VARCHAR(100)  NOT NULL,
-    drink_type     VARCHAR(50)   NOT NULL,
-    drink_size     VARCHAR(20)   NOT NULL,
-    milk_type      VARCHAR(30)   DEFAULT 'None',
+    customerName   VARCHAR(100)  NOT NULL,
+    drinkType      VARCHAR(50)   NOT NULL,
+    drinkSize      VARCHAR(20)   NOT NULL,
+    milkType       VARCHAR(30)   DEFAULT 'None',
     quantity       INT           NOT NULL DEFAULT 1 CHECK (quantity >= 1),
-    unit_price     DECIMAL(6, 2) NOT NULL,
-    extra_shots    INT           NOT NULL DEFAULT 0,
-    milk_surcharge DECIMAL(4, 2) NOT NULL DEFAULT 0.00,
-    order_status   VARCHAR(20)   NOT NULL DEFAULT 'Pending',
-    order_date     VARCHAR(20)   NOT NULL
+    unitPrice      DECIMAL(6, 2) NOT NULL,
+    extraShots     INT           NOT NULL DEFAULT 0,
+    milkSurcharge  DECIMAL(4, 2) NOT NULL DEFAULT 0.00,
+    orderStatus    VARCHAR(20)   NOT NULL DEFAULT 'Pending',
+    orderDate      VARCHAR(20)   NOT NULL
 );
 
-INSERT INTO coffee_order
-    (customer_name, drink_type, drink_size, milk_type, quantity, unit_price, extra_shots,
-                          milk_surcharge, order_status, order_date)
--- Initial sample data
+INSERT INTO coffeeOrder
+(customerName, drinkType, drinkSize, milkType, quantity, unitPrice, extraShots, milkSurcharge, orderStatus, orderDate)
+
 VALUES
     ('Alice Smith', 'Latte', 'Large', 'Oat', 2, 4.00, 1, 0.75, 'Completed', '2026-09-02'),
     ('Bob Jones', 'Cappuccino', 'Medium', 'Whole', 1, 3.00, 0, 0.00, 'Completed', '2026-09-04'),

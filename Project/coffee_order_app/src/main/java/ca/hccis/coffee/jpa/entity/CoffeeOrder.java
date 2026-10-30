@@ -7,47 +7,53 @@ import jakarta.persistence.*;
  *
  * @author LRML
  * @since 09262026
+ * @updated 10/16-29/2026 to add column hookups and naming conventions for db connection
  */
-
 @Entity
-@Table(name = "coffee_order")
+@Table(name = "coffeeOrder")
 public class CoffeeOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "customer_name")
+    @Column(name = "customerName")
     private String customerName;
 
-    @Column(name = "drink_type")
+    @Column(name = "drinkType")
     private String drinkType;
 
-    @Column(name = "drink_size")
+    @Column(name = "drinkSize")
     private String drinkSize;
 
-    @Column(name = "milk_type")
+    @Column(name = "milkType")
     private String milkType;
 
     private Integer quantity;
 
-    @Column(name = "unit_price")
+    @Column(name = "unitPrice")
     private Double unitPrice;
 
-    @Column(name = "extra_shots")
+    @Column(name = "extraShots")
     private Integer extraShots;
 
-    @Column(name = "milk_surcharge")
+    @Column(name = "milkSurcharge")
     private Double milkSurcharge;
 
-    @Column(name = "order_status")
+    @Column(name = "orderStatus")
     private String orderStatus;
 
-    @Column(name = "order_date")
+    @Column(name = "orderDate")
     private String orderDate;
 
+    // Calculated fields managed entirely in Java BO (not stored in DB columns)
+    @Transient
     private double subtotal;
+
+    @Transient
     private double tax;
+
+    @Transient
     private double grandTotal;
 
     // Required Default Constructor for JPA

@@ -1,3 +1,14 @@
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+
+Add order page
+Provides base order form for adding new orders
+Connect to database??
+
+Author: LRML
+Since: 10/16/2026
+-->
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/head :: head}">
@@ -6,16 +17,16 @@
 <body>
 <nav th:replace="~{fragments/navHeader :: navbar}"></nav><div class="container my-4" style="max-width: 600px;">
     <div class="card shadow-sm p-4">
-        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id != null}">Edit Coffee Order</h2>
-        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id == null}">Add Coffee Order</h2>
+        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id != null}" th:text="#{label.edit.order}">Edit Coffee Order</h2>
+        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id == null}" th:text="#{label.add.order}">Add Coffee Order</h2>
 
         <form th:action="@{/coffeeorder/submit}" th:object="${coffeeOrder}" method="post">
 
-            <!-- Hidden ID field -->
+            <!-- Hides the ID field -->
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <label class="form-label font-weight-bold">Customer Name:</label>
+                <label class="form-label font-weight-bold" th:text="#{label.search.name}">Customer Name:</label>
                 <input type="text" th:field="*{customerName}" class="form-control" required />
             </div>
 
@@ -71,7 +82,7 @@
                 <input type="text" th:field="*{orderStatus}" class="form-control" placeholder="e.g., Pending, Completed" />
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mt-3" style="background-color: #6F4E37; border-color: #6F4E37;">
+            <button type="submit" class="btn btn-primary w-100 mt-3" style="background-color: #6F4E37; border-color: #6F4E37;" th:text="#{label.submit}">
                 Submit Order
             </button>
         </form>

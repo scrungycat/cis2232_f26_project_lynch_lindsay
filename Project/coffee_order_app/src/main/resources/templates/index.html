@@ -1,26 +1,78 @@
-<!--TODO: DELETE/EDIT THIS...-->
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+
+Main Homepage: Entrypoint of the application
+
+Displays welcome portal with basic chart overview
+
+Author: LRML
+Since: 10/16/2026
+
+-->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: headerFragment">
-    <title id="pageTitle">Coffee Orders Tracker</title>
+<head th:include="~{fragments/head :: headerFragment}">
+    <title id="pageTitle">Coffee Orders Tracker | Home</title>
 </head>
 <body>
-<nav th:replace="fragments/navHeader :: navbar"></nav>
+<nav th:replace="~{fragments/navHeader :: navbar}"></nav>
 
-<div style="width:600px; height:350px;">
-    <canvas id="coffeeChart"></canvas>
+<div class="container my-5">
+    <!-- Welcome / Hero Section with High-Contrast Border & Logo Grid -->
+    <div class="p-5 mb-4 rounded-3 shadow-sm" style="background-color: var(--main-color-light) !important; border: 2px solid var(--border-coffee);">
+        <div class="row align-items-center">
+            <!-- Left Column: Text & Actions -->
+            <div class="col-lg-8 py-2">
+                <h1 class="display-5 fw-bold" style="color: var(--main-color-primary);">Trident Roastery | Coffee Order App</h1>
+                <p class="fs-5 text-dark mt-3">
+                <h1 class="display-5 fw-bold" style="color: var(--main-color-primary);" th:text="#{label.welcome.to} + ' Trident Roastery'">
+                    Welcome to Trident Roastery
+                </h1><br>
+                    This application allows for streamlined order entry, while automatically calculating order subtotals.<br>
+                    Use the tools below and in the navigation bar to print customer receipts and generate customized sales reports.
+                </p>
+                <div class="mt-4">
+                    <a th:href="@{/coffeeorder/add}" class="btn btn-primary btn-lg me-2" style="background-color: var(--main-color-primary); border-color: var(--main-color-primary);">
+                        <i class="fas fa-plus"></i> Add New Order
+                    </a>
+                    <a th:href="@{/coffeeorder}" class="btn btn-outline-secondary btn-lg" style="color: var(--main-color-primary); border-color: var(--main-color-primary);">
+                        <i class="fas fa-list"></i> View All Orders
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Logo Fill for Blank Space -->
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                <img src="/images/tridentRLogo_256.png" alt="Trident Roastery Logo" class="img-fluid p-3" style="max-height: 220px; opacity: 0.95; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1));">
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics / Chart Section -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="card shadow-sm p-4">
+                <h3 class="mb-3 text-center" style="color: var(--main-color-primary);">Orders Analytics Overview</h3>
+                <div style="position: relative; height: 350px; width: 100%;">
+                    <canvas id="coffeeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Basic chart that displays recent popular drinks that have been ordered
+This is literally mostly just to fill space on the page until I get photos or something haha -->
 
 <script th:inline="javascript">
     const coffeeData = [[${orders}]];
     console.log('Coffee Order Data:', coffeeData);
 
-    // 1. Group quantities by drink type (e.g., Latte, Cappuccino, Espresso)
-    // If your item property is named differently (e.g., item.coffeeType or item.drink), change item.coffeeType below!
+    // Group quantities by drink type or fallback to customer name
     const totalsByDrink = coffeeData.reduce((acc, item) => {
-        const drink = item.coffeeType || item.customerName; // Fallback to customerName if coffeeType isn't available
-        acc[drink] = (acc[drink] || 0) + item.quantity;
+        const drink = item.drinkType || item.customerName || 'General Order';
+        acc[drink] = (acc[drink] || 0) + (item.quantity || 1);
         return acc;
     }, {});
 
@@ -36,7 +88,7 @@
             datasets: [{
                 label: 'Total Cups Ordered',
                 data: chartValues,
-                backgroundColor: 'rgba(111, 78, 55, 0.7)',
+                backgroundColor: 'rgba(111, 78, 55, 0.75)',
                 borderColor: 'rgba(111, 78, 55, 1)',
                 borderWidth: 1.5,
                 borderRadius: 4
@@ -47,12 +99,10 @@
             maintainAspectRatio: false,
             plugins: {
                 title: {
-                    display: true,
-                    text: 'Coffee Orders Summary',
-                    font: { size: 16 }
+                    display: false
                 },
                 legend: {
-                    display: false // Unnecessary when there is only 1 dataset
+                    display: false
                 },
                 tooltip: {
                     callbacks: {
@@ -66,7 +116,7 @@
                 x: {
                     title: {
                         display: true,
-                        text: 'Coffee Type', // Change to 'Customer' or 'Date' depending on grouping
+                        text: 'Drink Type',
                         font: { weight: 'bold' }
                     }
                 },
@@ -78,7 +128,7 @@
                         font: { weight: 'bold' }
                     },
                     ticks: {
-                        stepSize: 1 // Forces integer increments on cup counts
+                        stepSize: 1
                     }
                 }
             }
@@ -86,7 +136,6 @@
     });
 </script>
 
-<footer th:replace="fragments/footer :: footer"></footer>
-
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

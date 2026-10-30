@@ -39,11 +39,11 @@ Displays page neatly with graph to show sales trends for date range
     <div th:if="${message}" class="alert alert-warning text-center" role="alert" th:text="${message}"></div>
     <div th:if="${fileSavedMessage}" class="alert alert-success text-center" role="alert" th:text="${fileSavedMessage}"></div>
 
-    <!-- Results Section (Displayed when orders are found) -->
+    <!-- Results Section -->
     <div class="row justify-content-center" th:if="${reportInput.coffeeOrders != null and !reportInput.coffeeOrders.isEmpty()}">
         <div class="col-md-10">
 
-            <!-- Grand Total Money In -->
+            <!-- Grand Total -->
             <div class="card bg-light mb-3 text-center shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title text-muted">Grand Total Revenue</h5>
@@ -51,10 +51,14 @@ Displays page neatly with graph to show sales trends for date range
                 </div>
             </div>
 
-            <!-- Graphical Chart Container -->
+            <!-- Graph/chart Container -->
             <div class="card shadow mb-4 p-3">
                 <h4 class="text-center mb-3">Sales Trend Chart</h4>
-                <canvas id="salesChart" width="400" height="200"></canvas>
+                <div class="table-responsive" style="overflow-x: auto; width: 100%;">
+                    <div style="min-width: 800px; height: 350px; position: relative;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
             </div>
 
             <!-- Sales Data Table -->

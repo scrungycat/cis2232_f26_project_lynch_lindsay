@@ -4,12 +4,13 @@ import ca.hccis.coffee.jpa.entity.CoffeeOrder;
 
 /**
  * TODO Done A2 Rq: BO creation and setup
- * Main entity business object calculations
+ * Main entity business object calculations for subtotals, tax, grand totals
  * Determines cost of each coffee order
  * CIS 2232 | Assignment 2
  *
  * @author LRML
  * @since 09252026
+ * @updated 10/16/2026 to include some safeguards against empty inputs from web form
  */
 
 public class CoffeeOrderBO {
@@ -26,6 +27,10 @@ public class CoffeeOrderBO {
      * Calculation Needed:
      * orderSubtotal = (unitPrice + milkSurcharge + extraShotCharge) x quantity
      * Currently determines price based on drink size and add-ons (shots, milk)
+     *
+     * @author: LRML
+     * @since: 10/16/2026
+     *
      *  @Notes:
      *          - No real validation added yet for typos
      *          - Will add at later time
@@ -34,29 +39,33 @@ public class CoffeeOrderBO {
      */
     public static double calculateSubtotal(CoffeeOrder orderItem) {
 
-        String orderDrinkSize = orderItem.getDrinkSize();
-        String orderMilkType = orderItem.getMilkType();
+        if (orderItem == null) {
+            return 0.0;
+        }
 
-        if (orderDrinkSize.equalsIgnoreCase("Small")) {
-            orderItem.setUnitPrice(COST_COFFEE_SMALL);
-        } else if (orderDrinkSize.equalsIgnoreCase("Medium")) {
-            orderItem.setUnitPrice(COST_COFFEE_MEDIUM);
+        String orderDrinkSize = orderItem.getDrinkSize() != null ? orderItem.getDrinkSize() : "Small";
+        String orderMilkType = orderItem.getMilkType() != null ? orderItem.getMilkType() : "None";
+
+        int quantity = orderItem.getQuantity() != null ? orderItem.getQuantity() : 1;
+        int extraShots = orderItem.getExtraShots() != null ? orderItem.getExtraShots() : 0;
+
+        double unitPrice = COST_COFFEE_SMALL;
+        if (orderDrinkSize.equalsIgnoreCase("Medium")) {
+            unitPrice = COST_COFFEE_MEDIUM;
         } else if (orderDrinkSize.equalsIgnoreCase("Large")) {
-            orderItem.setUnitPrice(COST_COFFEE_LARGE);
+            unitPrice = COST_COFFEE_LARGE;
         }
+        orderItem.setUnitPrice(unitPrice);
 
-        if (orderMilkType.equalsIgnoreCase("oat")
-                || orderMilkType.equalsIgnoreCase("almond")) {
-            orderItem.setMilkSurcharge(COST_MILK_SURCHARGE);
-        }else {
-            orderItem.setMilkSurcharge(0.00);
+        double milkSurcharge = 0.00;
+        if (orderMilkType.equalsIgnoreCase("oat") || orderMilkType.equalsIgnoreCase("almond")) {
+            milkSurcharge = COST_MILK_SURCHARGE;
         }
+        orderItem.setMilkSurcharge(milkSurcharge);
 
-        double extraShotCharge = orderItem.getExtraShots() * COST_EXTRA_SHOT;
+        double extraShotCharge = extraShots * COST_EXTRA_SHOT;
 
-        double subtotal =
-                (orderItem.getUnitPrice() + orderItem.getMilkSurcharge() + extraShotCharge)
-                        * orderItem.getQuantity();
+        double subtotal = (unitPrice + milkSurcharge + extraShotCharge) * quantity;
 
         orderItem.setSubtotal(subtotal);
         return subtotal;
@@ -71,6 +80,9 @@ public class CoffeeOrderBO {
      * @return double tax
      */
     public static double calculateTax(CoffeeOrder orderItem) {
+        if (orderItem == null) {
+            return 0.0;
+        }
 
         double tax = orderItem.getSubtotal() * TAX_RATE;
         orderItem.setTax(tax);
@@ -86,6 +98,9 @@ public class CoffeeOrderBO {
      * @return grandTotal
      */
     public static double calculateGrandTotal(CoffeeOrder orderItem) {
+        if (orderItem == null) {
+            return 0.0;
+        }
 
         double grandTotal = orderItem.getSubtotal() + orderItem.getTax();
         orderItem.setGrandTotal(grandTotal);

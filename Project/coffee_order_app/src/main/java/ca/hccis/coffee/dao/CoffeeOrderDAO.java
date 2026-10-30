@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Abstracts/encapsulates interactions with database, allows isolating from business logic
  *
  * @author: LRML
- * @since:
+ * @since: 10/16/2026
  */
 
 public class CoffeeOrderDAO {
@@ -23,30 +23,29 @@ public class CoffeeOrderDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Report 1. Get Customer Receipt by Order ID
+    // Gets Customer Receipt by Order ID requested by user
     public CoffeeOrder getOrderByID(int orderId) {
         CoffeeOrder order = null;
-        String sql = "SELECT * FROM coffee_order WHERE id = ?";
+        String sql = "SELECT * FROM coffeeOrder WHERE id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setInt(1, orderId);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 order = new CoffeeOrder();
                 order.setId(rs.getInt("id"));
-                order.setCustomerName(rs.getString("customer_name"));
-                order.setDrinkType(rs.getString("drink_type"));
-                order.setDrinkSize(rs.getString("drink_size"));
-                order.setMilkType(rs.getString("milk_type"));
+                order.setCustomerName(rs.getString("customerName"));
+                order.setDrinkType(rs.getString("drinkType"));
+                order.setDrinkSize(rs.getString("drinkSize"));
+                order.setMilkType(rs.getString("milkType"));
                 order.setQuantity(rs.getInt("quantity"));
-                order.setUnitPrice(rs.getDouble("unit_price"));
-                order.setExtraShots(rs.getInt("extra_shots"));
-                order.setMilkSurcharge(rs.getDouble("milk_surcharge"));
-                order.setOrderStatus(rs.getString("order_status"));
-                order.setOrderDate(rs.getString("order_date"));
+                order.setUnitPrice(rs.getDouble("unitPrice"));
+                order.setExtraShots(rs.getInt("extraShots"));
+                order.setMilkSurcharge(rs.getDouble("milkSurcharge"));
+                order.setOrderStatus(rs.getString("orderStatus"));
+                order.setOrderDate(rs.getString("orderDate"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,10 +53,10 @@ public class CoffeeOrderDAO {
         return order;
     }
 
-    // Report 2. Get Sales Review by Date Range
+    // Gets Sales Review using provided Date Range from user
     public ArrayList<CoffeeOrder> getOrdersByDateRange(String startDate, String endDate) {
         ArrayList<CoffeeOrder> orders = new ArrayList<>();
-        String sql = "SELECT * FROM coffee_order WHERE order_date BETWEEN ? AND ?";
+        String sql = "SELECT * FROM coffeeOrder WHERE orderDate BETWEEN ? AND ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -69,16 +68,16 @@ public class CoffeeOrderDAO {
             while (rs.next()) {
                 CoffeeOrder order = new CoffeeOrder();
                 order.setId(rs.getInt("id"));
-                order.setCustomerName(rs.getString("customer_name"));
-                order.setDrinkType(rs.getString("drink_type"));
-                order.setDrinkSize(rs.getString("drink_size"));
-                order.setMilkType(rs.getString("milk_type"));
+                order.setCustomerName(rs.getString("customerName"));
+                order.setDrinkType(rs.getString("drinkType"));
+                order.setDrinkSize(rs.getString("drinkSize"));
+                order.setMilkType(rs.getString("milkType"));
                 order.setQuantity(rs.getInt("quantity"));
-                order.setUnitPrice(rs.getDouble("unit_price"));
-                order.setExtraShots(rs.getInt("extra_shots"));
-                order.setMilkSurcharge(rs.getDouble("milk_surcharge"));
-                order.setOrderStatus(rs.getString("order_status"));
-                order.setOrderDate(rs.getString("order_date"));
+                order.setUnitPrice(rs.getDouble("unitPrice"));
+                order.setExtraShots(rs.getInt("extraShots"));
+                order.setMilkSurcharge(rs.getDouble("milkSurcharge"));
+                order.setOrderStatus(rs.getString("orderStatus"));
+                order.setOrderDate(rs.getString("orderDate"));
                 orders.add(order);
             }
         } catch (SQLException e) {

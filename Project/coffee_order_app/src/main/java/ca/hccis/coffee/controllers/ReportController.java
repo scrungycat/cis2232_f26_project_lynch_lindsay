@@ -107,9 +107,10 @@ public class ReportController {
                         o.getDrinkType(),
                         o.getQuantity()
                 ));
-                // Calculate subtotal if your BO handles it, or just tally quantities/revenue
-                double itemSubtotal = (o.getUnitPrice() + (o.getExtraShots() * 1.0) + o.getMilkSurcharge()) * o.getQuantity();
-                grandTotal += itemSubtotal;
+                CoffeeOrderBO.calculateSubtotal(o);
+                CoffeeOrderBO.calculateTax(o);
+                CoffeeOrderBO.calculateGrandTotal(o);
+                grandTotal += o.getGrandTotal();
             }
 
             sb.append("-------------------------------------------------------------\n");

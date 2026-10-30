@@ -5,7 +5,7 @@ Removed Bulma in favor of Bootstrap-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer th:fragment="footer" class="footer mt-auto py-3 bg-dark text-white">
+<footer th:fragment="footer" class="footer mt-auto py-3 text-white">
     <div class="container text-center">
         <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>&nbsp;&nbsp;
         <span th:text="#{label.business.name}">label business name</span>

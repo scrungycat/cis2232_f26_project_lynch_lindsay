@@ -17,15 +17,38 @@ public class CoffeeOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "customer_name")
     private String customerName;
+
+    @Column(name = "drink_type")
     private String drinkType;
+
+    @Column(name = "drink_size")
     private String drinkSize;
+
+    @Column(name = "milk_type")
     private String milkType;
+
     private Integer quantity;
+
+    @Column(name = "unit_price")
     private Double unitPrice;
+
+    @Column(name = "extra_shots")
     private Integer extraShots;
+
+    @Column(name = "milk_surcharge")
     private Double milkSurcharge;
+
+    @Column(name = "order_status")
     private String orderStatus;
+
+    @Column(name = "order_date")
+    private String orderDate;
+
+    private double subtotal;
+    private double tax;
+    private double grandTotal;
 
     // Required Default Constructor for JPA
     public CoffeeOrder() {}
@@ -60,4 +83,32 @@ public class CoffeeOrder {
 
     public String getOrderStatus() { return orderStatus; }
     public void setOrderStatus(String orderStatus) { this.orderStatus = orderStatus; }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public double getGrandTotal() {
+        return grandTotal;
+    }
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
+    }
 }

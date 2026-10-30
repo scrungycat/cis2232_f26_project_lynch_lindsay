@@ -243,6 +243,7 @@ public class Controller {
             StringBuilder orderHistory = new StringBuilder();
             for (Map.Entry<Integer, CoffeeOrder> entry : orderMap.entrySet()) {
 
+                //this duplicates the "Order ID (#):" portion of output in both console and GUI....
                orderHistory.append("Order ID ")
                        .append(entry.getKey())
                        .append(": ")

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+CIS-2232 | Coffee Order Application Project | HTML portal for receipt report requirement
+
+Displays page neatly for customer receipts for individual orders
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headerFragment}">
+    <title id="pageTitle">Trident Roastery | Receipt Report</title>
+</head>
+<body>
+<nav th:replace="~{fragments/navHeader :: navbar}"></nav>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Customer Order Receipt</h2>
+
+    <!-- Search Form -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form th:action="@{/report/receipt}" th:object="${reportInput}" method="post" class="card p-4 shadow-sm">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Enter an Order ID to print receipt:</label>
+                    <input type="number" id="id" th:field="*{id}" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="background-color: #6F4E37; border-color: #6F4E37;">
+                    Lookup Receipt
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div th:if="${message}" class="alert alert-danger text-center" role="alert" th:text="${message}"></div>
+    <div th:if="${fileSavedMessage}" class="alert alert-success text-center" role="alert" th:text="${fileSavedMessage}"></div>
+
+    <!-- Receipt Display Card -->
+    <div class="row justify-content-center" th:if="${reportInput.singleOrder != null}">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header text-white" style="background-color: #6F4E37;">
+                    <h4 class="mb-0">Receipt #<span th:text="${reportInput.singleOrder.id}"></span></h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Date:</strong> <span th:text="${reportInput.singleOrder.orderDate}"></span></p>
+                    <p><strong>Customer Name:</strong> <span th:text="${reportInput.singleOrder.customerName}"></span></p>
+                    <p><strong>Status:</strong> <span th:text="${reportInput.singleOrder.orderStatus}"></span></p>
+
+                    <table class="table table-striped mt-3">
+                        <tr>
+                            <th>Item Details</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Drink Type</td>
+                            <td th:text="${reportInput.singleOrder.drinkType}"></td>
+                        </tr>
+                        <tr>
+                            <td>Size</td>
+                            <td th:text="${reportInput.singleOrder.drinkSize}"></td>
+                        </tr>
+                        <tr>
+                            <td>Milk Type</td>
+                            <td th:text="${reportInput.singleOrder.milkType}"></td>
+                        </tr>
+                        <tr>
+                            <td>Extra Shots</td>
+                            <td th:text="${reportInput.singleOrder.extraShots}"></td>
+                        </tr>
+                        <tr>
+                            <td>Quantity</td>
+                            <td th:text="${reportInput.singleOrder.quantity}"></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Price</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(reportInput.singleOrder.unitPrice, 1, 2)}"></td>
+                        </tr>
+                        <tr>
+                            <td>Milk Surcharge</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(reportInput.singleOrder.milkSurcharge, 1, 2)}"></td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td>Subtotal</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(reportInput.singleOrder.subtotal, 1, 2)}"></td>
+                        </tr>
+                        <tr>
+                            <td>Tax (15%)</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(reportInput.singleOrder.tax, 1, 2)}"></td>
+                        </tr>
+                        <tr class="table-active fw-bold">
+                            <td>Grand Total</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(reportInput.singleOrder.grandTotal, 1, 2)}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

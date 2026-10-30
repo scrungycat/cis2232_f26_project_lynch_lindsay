@@ -10,6 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+/**
+ * Base entry controller with hookups for coffee order repo
+ *
+ * @author LRML
+ * @since 09262026
+ * @updated 10/16-29/2026 to add column hookups and naming conventions for db connection
+ */
 
 @Controller
 public class BaseController {
@@ -28,7 +35,7 @@ public class BaseController {
 
         ArrayList<CoffeeOrder> orders = new ArrayList<>();
         _cor.findAll().forEach(orders::add);
-        model.addAttribute("orders", orders); //populates attribs in JS index page
+        model.addAttribute("orders", orders);
 
         return "index";
     }

@@ -1,0 +1,29 @@
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Repurposed this from example project, originally list.html
+Displays options to pull receipts or sales reports in a separate page
+Might be useful later if other functionality is added to the program??
+
+Author: LRML
+Since: 10/16/2026
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/head :: headerFragment}">
+        <title id="pageTitle" th:text="#{application.name}">Reporting for Trident Roastery | Coffee Shop Ordering App</title>
+    </head>
+    <body>
+        <nav th:replace="~{fragments/navHeader :: navbar}"></nav>
+
+        <div class="container my-5 text-center">
+            <h2 class="mb-4" th:text="#{reports}">Coffee Shop Reports</h2>
+            <div class="list-group mx-auto" style="max-width: 400px;">
+                <a th:href="@{/report/receipt}" class="list-group-item list-group-item-action">
+                    Customer Receipt (By Order ID)</a>
+                <a th:href="@{/report/sales}" class="list-group-item list-group-item-action">
+                    Sales Review (By Date Range)</a>
+            </div>
+        </div>
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </body>
+</html>

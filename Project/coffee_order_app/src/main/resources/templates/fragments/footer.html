@@ -1,15 +1,21 @@
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Footer fragment, provides consistency across pages
+
+Removed bulma references when switching to pure bootstrap
+
+Author: LRML
+Since: 10/16/2026
+-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
 <body>
-<footer th:fragment="footer" class="footer ftr">
-    <div>
-        <div class="content has-text-centered">
-            <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>&nbsp;&nbsp;<span
-                th:text="#{label.business.name}">label business name</span>
-        </div>
+<footer th:fragment="footer" class="footer mt-auto py-3 text-white">
+    <div class="container text-center">
+        <span th:text="${#calendars.format(#calendars.createNow(), 'MM/dd/YY')}"></span>&nbsp;&nbsp;
+        <span th:text="#{label.business.name}">label business name</span>
+        <span>| ©LRML 2026</span>
     </div>
 </footer>
 </body>
-
 </html>

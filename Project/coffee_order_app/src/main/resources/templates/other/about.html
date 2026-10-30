@@ -1,29 +1,57 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head :: head">
-        <title id="pageTitle" th:text="#{application.name}">App name</title>
-    </head>
-    <body>
-    <nav th:replace="fragments/navHeader :: navbar"></nav>
-    <div class="container has-text-centered">
-        <h2 class="title is-2" th:text="#{about}"></h2>
-        <table class="wbb centered">
-            <tr class="centered2">
-                <th>Member Name</th>
-                <th>&nbsp;&nbsp;</th>
-                <th>Role</th>
-            </tr>
-            <tr>
-                <td>BJ MacLean</td>
-                <td>&nbsp;&nbsp;</td>
-                <td>Business Representative</td>
-            </tr>
-            <tr>
-                <td>BJ MacLean</td>
-                <td>&nbsp;&nbsp;</td>
-                <td>Lead Developer</td>
-            </tr>
-        </table>
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Updated formatting, adjusted member names and gave a lil intro
+
+Author: LRML
+Since: 10/16/2026
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/head :: headerFragment}">
+    <title id="pageTitle" th:text="#{application.name}">About Trident Roastery | Coffee Shop Ordering App</title>
+</head>
+<body>
+<nav th:replace="~{fragments/navHeader :: navbar}"></nav>
+
+<div class="container my-5 text-center" style="max-width: 800px;">
+    <h2 class="mb-4 fw-bold" style="color: var(--main-color-primary);" th:text="#{about}">Coffee Shop About</h2>
+
+    <div class="card shadow-sm p-4" style="border: 2px solid var(--border-coffee); background-color: #ffffff;">
+        <div class="card-body">
+            <p class="text-muted mb-4 fs-5">
+                 The goal of this project is to create a fictional coffee shop ordering system that provides meaningful statistics using tables, graphs/charts, and other related information.<br>
+                GitHub Repo located <a href="https://github.com/scrungycat/cis2232_f26_project_lynch_lindsay">here</a>. <br>
+                <strong>Thanks for checking it out :)</strong>
+            </p>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="text-center text-white">
+                    <tr>
+                        <th class="py-3 fs-5 text-center">Team Member</th>
+                        <th class="py-3 fs-5 text-center">Project Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="py-3 fw-bold ps-4">Lindsay</td>
+                        <td class="py-3 text-secondary">Lead Developer</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 fw-bold ps-4">Isaac</td>
+                        <td class="py-3 text-secondary">QA / Project Manager</td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 fw-bold ps-4">Misha</td>
+                        <td class="py-3 text-secondary">Business Client / Stakeholder</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    </body>
-    <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
 </html>

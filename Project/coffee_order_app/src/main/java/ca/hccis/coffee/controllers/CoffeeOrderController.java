@@ -1,10 +1,20 @@
 package ca.hccis.coffee.controllers;
 
+import ca.hccis.coffee.bo.CoffeeOrderBO;
 import ca.hccis.coffee.jpa.entity.CoffeeOrder;
 import ca.hccis.coffee.repository.CoffeeOrderRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+/**
+ * Order Controller with hookups for creating new orders in-browser
+ * Connects to db to add new orders too!
+ *
+ * @author LRML
+ * @since 10/16/2026
+ */
 
 @Controller
 @RequestMapping("/coffeeorder")
@@ -20,6 +30,36 @@ public class CoffeeOrderController {
     public String home(Model model) {
         Iterable<CoffeeOrder> orders = _cor.findAll();
         model.addAttribute("orders", orders);
-        return "index"; // Or "coffeeorder/list" if you have a subfolder template
+        return "coffeeorder/list";
+    }
+
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        model.addAttribute("coffeeOrder", new CoffeeOrder());
+        return "coffeeorder/add"; // Resolves to templates/coffeeorder/add.html
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editOrder(@PathVariable("id") int id, Model model) {
+        CoffeeOrder order = _cor.findById(id).orElse(null);
+        if (order == null) {
+            return "redirect:/coffeeorder";
+        }
+        model.addAttribute("coffeeOrder", order);
+        return "coffeeorder/add";
+    }
+
+    @PostMapping("/submit")
+    public String submitOrder(@ModelAttribute("coffeeOrder") CoffeeOrder coffeeOrder, RedirectAttributes redirectAttributes) {
+        CoffeeOrderBO.calculateSubtotal(coffeeOrder);
+        CoffeeOrderBO.calculateTax(coffeeOrder);
+        CoffeeOrderBO.calculateGrandTotal(coffeeOrder);
+
+        _cor.save(coffeeOrder);
+
+        redirectAttributes.addFlashAttribute("messageSuccess",
+                "Successfully saved order for " + coffeeOrder.getCustomerName() + "!");
+
+        return "redirect:/coffeeorder";
     }
 }

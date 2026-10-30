@@ -1,0 +1,94 @@
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+"Add order" form page
+Provides base order form for adding new orders
+
+Author: LRML
+Since: 10/16/2026
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/head :: head}">
+    <title id="pageTitle" th:text="#{label.add.edit}">Trident Roastery | Add/Edit Order</title>
+</head>
+<body>
+<nav th:replace="~{fragments/navHeader :: navbar}"></nav>
+<div class="container my-4" style="max-width: 600px;">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id != null}"
+            th:text="#{label.edit.order}">Edit Coffee Order</h2>
+        <h2 class="text-center mb-4" style="color: #6F4E37;" th:if="${coffeeOrder.id == null}"
+            th:text="#{label.add.order}">Add Coffee Order</h2>
+
+        <form th:action="@{/coffeeorder/submit}" th:object="${coffeeOrder}" method="post">
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold" th:text="#{label.search.name}">Customer Name:</label>
+                <input type="text" th:field="*{customerName}" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Order Date:</label>
+                <input type="date" th:field="*{orderDate}" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Drink Type:</label>
+                <select th:field="*{drinkType}" class="form-control" required>
+                    <option value="">-- Select Drink --</option>
+                    <option value="Latte">Latte</option>
+                    <option value="Cappuccino">Cappuccino</option>
+                    <option value="Americano">Americano</option>
+                    <option value="Espresso">Espresso</option>
+                    <option value="Mocha">Mocha</option>
+                    <option value="Brewed Coffee">Brewed Coffee</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Drink Size:</label>
+                <select th:field="*{drinkSize}" class="form-control" required>
+                    <option value="">-- Select Size --</option>
+                    <option value="Small">Small ($2.00)</option>
+                    <option value="Medium">Medium ($3.00)</option>
+                    <option value="Large">Large ($4.00)</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Milk Type:</label>
+                <select th:field="*{milkType}" class="form-control">
+                    <option value="Regular">Regular / Dairy ($0.00)</option>
+                    <option value="Oat">Oat Milk (+$0.75)</option>
+                    <option value="Almond">Almond Milk (+$0.75)</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Quantity:</label>
+                <input type="number" th:field="*{quantity}" class="form-control" min="1" value="1" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Extra Shots:</label>
+                <input type="number" th:field="*{extraShots}" class="form-control" min="0" value="0"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Order Status:</label>
+                <input type="text" th:field="*{orderStatus}" class="form-control"
+                       placeholder="e.g., Pending, Completed"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3"
+                    style="background-color: #6F4E37; border-color: #6F4E37;" th:text="#{label.submit}">
+                Submit Order
+            </button>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

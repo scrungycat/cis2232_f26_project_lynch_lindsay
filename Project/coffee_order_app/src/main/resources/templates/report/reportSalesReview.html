@@ -1,0 +1,165 @@
+<!--
+CIS-2232: Advanced OOP | Trident Roastery Coffee Order App
+Sales reporting search n graphing
+User can enter an order ID, and a receipt pops out if it's in the system
+Neatly organizes sales data from a range the user inputs
+Then displays as both a graph and a table for the relevant dates
+
+Author: LRML
+Since: 10/16/2026
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headerFragment}">
+    <title id="pageTitle">Trident Roastery | Sales Report</title>
+</head>
+<body>
+<nav th:replace="~{fragments/navHeader :: navbar}"></nav>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Sales Review Report</h2>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form th:action="@{/report/sales/submit}" th:object="${reportInput}" method="post" class="card p-4 shadow-sm">
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start Date:</label>
+                    <input type="date" id="startDate" th:field="*{startDate}" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">End Date:</label>
+                    <input type="date" id="endDate" th:field="*{endDate}" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="background-color: #6F4E37; border-color: #6F4E37;">
+                    Generate Sales Report
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Failsafe/error catching for communication if something goes wrong or order isn't found/database broken or not populated -->
+    <div th:if="${message}" class="alert alert-warning text-center" role="alert" th:text="${message}"></div>
+    <div th:if="${fileSavedMessage}" class="alert alert-success text-center" role="alert" th:text="${fileSavedMessage}"></div>
+
+    <!-- Otherwise starts showing the graph and table with data pulled from db -->
+    <div class="row justify-content-center" th:if="${reportInput.coffeeOrders != null and !reportInput.coffeeOrders.isEmpty()}">
+        <div class="col-md-10">
+
+            <div class="card bg-light mb-3 text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Grand Total Revenue</h5>
+                    <h3 id="grandTotalDisplay" class="text-success">$0.00</h3>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 p-3">
+                <h4 class="text-center mb-3">Sales Trend Chart</h4>
+                <div class="table-responsive" style="overflow-x: auto; width: 100%;">
+                    <div style="min-width: 800px; height: 350px; position: relative;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-header text-white" style="background-color: #6F4E37;">
+                    <h4 class="mb-0">Sales Data Breakdown</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Drink</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${reportInput.coffeeOrders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.orderDate}"></td>
+                            <td th:text="${order.customerName}"></td>
+                            <td th:text="${order.drinkType}"></td>
+                            <td th:text="${order.quantity}"></td>
+                            <td th:text="${order.orderStatus}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var orders = /*[[${reportInput.coffeeOrders}]]*/ [];
+
+    if (orders && orders.length > 0) {
+        var dateMap = {};
+        var grandTotal = 0;
+
+        orders.forEach(function(order) {
+            var dateStr = order.orderDate ? order.orderDate.toString().split('T')[0] : 'Unknown';
+            if (!dateMap[dateStr]) {
+                dateMap[dateStr] = { count: 0, revenue: 0 };
+            }
+            dateMap[dateStr].count += order.quantity;
+
+            var itemSubtotal = (order.unitPrice + (order.extraShots * 1.0) + order.milkSurcharge) * order.quantity;
+            dateMap[dateStr].revenue += itemSubtotal;
+            grandTotal += itemSubtotal;
+        });
+
+        document.getElementById('grandTotalDisplay').innerText = '$' + grandTotal.toFixed(2);
+
+        var labels = Object.keys(dateMap);
+        var salesCounts = labels.map(function(d) { return dateMap[d].count; });
+        var salesRevenues = labels.map(function(d) { return dateMap[d].revenue; });
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Number of Sales',
+                        data: salesCounts,
+                        backgroundColor: 'rgba(111, 78, 55, 0.6)',
+                        borderColor: 'rgba(111, 78, 55, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Dollar Amount ($)',
+                        data: salesRevenues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Value (Count / Dollars)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Dates in Range' }
+                    }
+                }
+            }
+        });
+    }
+    /*]]>*/
+</script>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

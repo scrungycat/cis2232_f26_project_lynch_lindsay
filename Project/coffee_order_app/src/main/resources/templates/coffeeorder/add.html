@@ -27,11 +27,13 @@ Since: 10/16/2026
             <div class="mb-3">
                 <label class="form-label font-weight-bold" th:text="#{label.search.name}">Customer Name:</label>
                 <input type="text" th:field="*{customerName}" class="form-control" required/>
+                <div th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label font-weight-bold">Order Date:</label>
                 <input type="date" th:field="*{orderDate}" class="form-control" required/>
+                <div th:if="${#fields.hasErrors('orderDate')}" th:errors="*{orderDate}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
@@ -45,6 +47,7 @@ Since: 10/16/2026
                     <option value="Mocha">Mocha</option>
                     <option value="Brewed Coffee">Brewed Coffee</option>
                 </select>
+                <div th:if="${#fields.hasErrors('drinkType')}" th:errors="*{drinkType}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
@@ -55,6 +58,7 @@ Since: 10/16/2026
                     <option value="Medium">Medium ($3.00)</option>
                     <option value="Large">Large ($4.00)</option>
                 </select>
+                <div th:if="${#fields.hasErrors('drinkSize')}" th:errors="*{drinkSize}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
@@ -69,17 +73,20 @@ Since: 10/16/2026
             <div class="mb-3">
                 <label class="form-label font-weight-bold">Quantity:</label>
                 <input type="number" th:field="*{quantity}" class="form-control" min="1" value="1" required/>
+                <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label font-weight-bold">Extra Shots:</label>
                 <input type="number" th:field="*{extraShots}" class="form-control" min="0" value="0"/>
+                <div th:if="${#fields.hasErrors('extraShots')}" th:errors="*{extraShots}" class="text-danger"></div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label font-weight-bold">Order Status:</label>
                 <input type="text" th:field="*{orderStatus}" class="form-control"
                        placeholder="e.g., Pending, Completed"/>
+                <div th:if="${#fields.hasErrors('orderStatus')}" th:errors="*{orderStatus}" class="text-danger"></div>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 mt-3"

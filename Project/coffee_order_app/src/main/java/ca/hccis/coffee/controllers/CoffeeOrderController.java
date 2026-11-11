@@ -3,8 +3,10 @@ package ca.hccis.coffee.controllers;
 import ca.hccis.coffee.bo.CoffeeOrderBO;
 import ca.hccis.coffee.jpa.entity.CoffeeOrder;
 import ca.hccis.coffee.repository.CoffeeOrderRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,8 +51,19 @@ public class CoffeeOrderController {
         return "coffeeorder/add";
     }
 
+    @GetMapping ("/delete/{id}")
+    public String deleteOrder(@PathVariable("id") int id) {
+        _cor.deleteById(id);
+        return "redirect:/coffeeorder";
+    }
+
     @PostMapping("/submit")
-    public String submitOrder(@ModelAttribute("coffeeOrder") CoffeeOrder coffeeOrder, RedirectAttributes redirectAttributes) {
+    public String submitOrder(@Valid @ModelAttribute("coffeeOrder") CoffeeOrder coffeeOrder, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "coffeeorder/add";
+        }
+
         CoffeeOrderBO.calculateSubtotal(coffeeOrder);
         CoffeeOrderBO.calculateTax(coffeeOrder);
         CoffeeOrderBO.calculateGrandTotal(coffeeOrder);

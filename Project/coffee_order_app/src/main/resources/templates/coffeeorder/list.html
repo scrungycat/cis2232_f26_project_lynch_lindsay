@@ -62,17 +62,33 @@ Since: 10/16/2026
                            title="Edit Order">
                             <i class="fas fa-edit me-1"></i> Edit
                         </a>
+                        <!-- Direct child of btn-group, so Bootstrap joins it to Edit.
+                             th:form links it to the hidden form below by id. -->
+                        <button type="submit" th:form="|deleteForm-${current.id}|"
+                                class="btn btn-sm btn-outline-primary px-3 py-1 fw-bold text-white shadow-sm mt-0"
+                                style="background-color: #6F4E37; border-color: #5a3d2b;"
+                                title="Delete Order">
+                            <i class="fas fa-trash-alt me-1"></i> Delete
+                        </button>
                     </div>
+
+                    <!-- Hidden form that actually sends the POST. One per row, so each id is unique. -->
+                    <form th:id="|deleteForm-${current.id}|"
+                          th:action="@{/coffeeorder/delete/{id}(id=${current.id})}"
+                          method="post" class="d-none"
+                          onsubmit="return confirm('Delete this order? This cannot be undone.');">
+                    </form>
                 </td>
             </tr>
 
-            <!-- Alt/failsafe if no data avail -->
-            <tr th:if="${#lists.isEmpty(orders)}">
-                <td colspan="9" class="text-center text-muted py-4">
-                    No coffee orders found. Make sure the database is set up using the provided script!
-                    (resources/db/mysql/createDatabase.sql)
-                </td>
-            </tr>
+            <!-- Has been replaced with different fallback in cis.js -->
+<!--            &lt;!&ndash; Alt/failsafe if no data avail &ndash;&gt;-->
+<!--            <tr th:if="${#lists.isEmpty(orders)}">-->
+<!--                <td colspan="9" class="text-center text-muted py-4">-->
+<!--                    No coffee orders found. Make sure the database is set up using the provided script!-->
+<!--                    (resources/db/mysql/createDatabase.sql)-->
+<!--                </td>-->
+<!--            </tr>-->
             </tbody>
         </table>
     </div>

@@ -1,6 +1,7 @@
 package ca.hccis.coffee.jpa.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 /**
  * This maps the coffee order entity to MySQL by matching variables with columns
@@ -17,32 +18,44 @@ public class CoffeeOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "{required}")
+    @Size(max = 100)
     @Column(name = "customerName")
     private String customerName;
 
+    @NotBlank(message = "{required}")
     @Column(name = "drinkType")
     private String drinkType;
 
+    @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "drinkSize")
     private String drinkSize;
 
     @Column(name = "milkType")
     private String milkType;
 
-    private Integer quantity;
+    @NotNull(message = "{required}") @Min(1) @Max(50)
+    @Column(name = "quantity")
+    private Integer quantity = 1;
 
     @Column(name = "unitPrice")
     private Double unitPrice;
 
+    @NotNull(message = "{required}") @Min(0) @Max(10)
     @Column(name = "extraShots")
-    private Integer extraShots;
+    private Integer extraShots = 0;
 
     @Column(name = "milkSurcharge")
     private Double milkSurcharge;
 
+    @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "orderStatus")
     private String orderStatus;
 
+    @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "orderDate")
     private String orderDate;
 

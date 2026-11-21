@@ -1,7 +1,8 @@
 package ca.hccis.coffee.bo;
 
 import ca.hccis.coffee.jpa.entity.CoffeeOrder;
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CIS-2232 | Coffee Order Application Project | Business Object for Reporting
@@ -14,6 +15,9 @@ import java.util.ArrayList;
  * and results for matching orders/receipts
  * also helper fields for error/success messaging
  *
+ * Updated for Sprint 3 Nov 20
+ * Changed ArrayList references to List
+ *
  * ReportController contains base functionality for the model, calling this to do work
  */
 
@@ -25,7 +29,8 @@ public class CoffeeOrderReportBO {
 
     // Receipt and sale reports
     private CoffeeOrder singleOrder;
-    private ArrayList<CoffeeOrder> coffeeOrders;
+//    private ArrayList<CoffeeOrder> coffeeOrders;
+    private List<CoffeeOrder> coffeeOrders;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -39,7 +44,9 @@ public class CoffeeOrderReportBO {
     public CoffeeOrder getSingleOrder() { return singleOrder; }
     public void setSingleOrder(CoffeeOrder singleOrder) { this.singleOrder = singleOrder; }
 
-    public ArrayList<CoffeeOrder> getCoffeeOrders() { return coffeeOrders; }
-    public void setCoffeeOrders(ArrayList<CoffeeOrder> coffeeOrders) { this.coffeeOrders = coffeeOrders; }
+    //public ArrayList<CoffeeOrder> getCoffeeOrders() { return coffeeOrders; }
+    //public void setCoffeeOrders(ArrayList<CoffeeOrder> coffeeOrders) { this.coffeeOrders = coffeeOrders; }
 
+    public List<CoffeeOrder> getCoffeeOrders() { return coffeeOrders; }
+    public void setCoffeeOrders(List<CoffeeOrder> coffeeOrders) { this.coffeeOrders = coffeeOrders; }
 }

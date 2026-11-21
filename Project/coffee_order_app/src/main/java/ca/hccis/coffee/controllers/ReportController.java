@@ -2,20 +2,22 @@ package ca.hccis.coffee.controllers;
 
 import ca.hccis.coffee.bo.CoffeeOrderBO;
 import ca.hccis.coffee.bo.CoffeeOrderReportBO;
-import ca.hccis.coffee.dao.CoffeeOrderDAO;
+//import ca.hccis.coffee.dao.CoffeeOrderDAO;
 import ca.hccis.coffee.jpa.entity.CoffeeOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ca.hccis.coffee.repository.CoffeeOrderRepository;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
 * CIS-2232 | Coffee Order Application Project | Controller for Reporting
@@ -32,7 +34,12 @@ import java.util.Date;
 @Controller
 public class ReportController {
 
-    private final CoffeeOrderDAO dao = new CoffeeOrderDAO();
+    //private final CoffeeOrderDAO dao = new CoffeeOrderDAO(); //replaced for sprint 3 JPA
+    private final CoffeeOrderRepository repository;
+
+    public ReportController(CoffeeOrderRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/report/menu")
     public String showReportMenu() {
@@ -48,7 +55,8 @@ public class ReportController {
 
     @PostMapping("/report/receipt")
     public String receiptSubmit(@ModelAttribute("reportInput") CoffeeOrderReportBO reportInput, Model model) {
-        CoffeeOrder order = dao.getOrderByID(reportInput.getId());
+        //CoffeeOrder order = dao.getOrderByID(reportInput.getId());
+        CoffeeOrder order = repository.findById(reportInput.getId()).orElse(null); //replaced for sprint 3 JPA
 
         if (order == null) {
             model.addAttribute("message", "No order found with ID: " + reportInput.getId());
@@ -86,7 +94,9 @@ public class ReportController {
 
     @PostMapping("/report/sales/submit")
     public String salesSubmit(@ModelAttribute("reportInput") CoffeeOrderReportBO reportInput, Model model) {
-        ArrayList<CoffeeOrder> orders = dao.getOrdersByDateRange(reportInput.getStartDate(), reportInput.getEndDate());
+        //ArrayList<CoffeeOrder> orders = dao.getOrdersByDateRange(reportInput.getStartDate(), reportInput.getEndDate()); //replaced for sprint 3 JPA
+        List<CoffeeOrder> orders = repository.findByOrderDateBetweenOrderByOrderDateAsc(
+                reportInput.getStartDate(), reportInput.getEndDate());
 
         if (orders.isEmpty()) {
             model.addAttribute("message", "No sales found between " + reportInput.getStartDate() + " and " + reportInput.getEndDate());

@@ -1,9 +1,7 @@
 package ca.hccis.coffee.jpa.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 /**
  * This maps the coffee order entity to MySQL by matching variables with columns
@@ -21,6 +19,7 @@ public class CoffeeOrder {
     private Integer id;
 
     @NotBlank(message = "{required}")
+    @Size(max = 100)
     @Column(name = "customerName")
     private String customerName;
 
@@ -29,31 +28,34 @@ public class CoffeeOrder {
     private String drinkType;
 
     @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "drinkSize")
     private String drinkSize;
 
     @Column(name = "milkType")
     private String milkType;
 
-    @Min(1)
+    @NotNull(message = "{required}") @Min(1) @Max(50)
     @Column(name = "quantity")
-    private Integer quantity;
+    private Integer quantity = 1;
 
     @Column(name = "unitPrice")
     private Double unitPrice;
 
-    @Min(0)
+    @NotNull(message = "{required}") @Min(0) @Max(10)
     @Column(name = "extraShots")
-    private Integer extraShots;
+    private Integer extraShots = 0;
 
     @Column(name = "milkSurcharge")
     private Double milkSurcharge;
 
-    @NotNull(message = "{required}")
+    @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "orderStatus")
     private String orderStatus;
 
-    @NotNull(message = "{required}")
+    @NotBlank(message = "{required}")
+    @Size(max = 20)
     @Column(name = "orderDate")
     private String orderDate;
 

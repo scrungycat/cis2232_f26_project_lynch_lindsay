@@ -51,9 +51,11 @@ public class CoffeeOrderController {
         return "coffeeorder/add";
     }
 
-    @GetMapping ("/delete/{id}")
-    public String deleteOrder(@PathVariable("id") int id) {
+    //added confirmation message here for deleting a line in the db
+    @PostMapping("/delete/{id}")
+    public String deleteOrder(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         _cor.deleteById(id);
+        redirectAttributes.addFlashAttribute("messageSuccess", "Order #" + id + " was deleted.");
         return "redirect:/coffeeorder";
     }
 

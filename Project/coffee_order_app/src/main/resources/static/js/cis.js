@@ -1,11 +1,10 @@
-//Unsure how much of this is needed yet so it'll stay for now (as of S2)
+//added this for failsafe in case table data is empty
 $(document).ready(function () {
-    $('#theData').dataTable();
-    $('#theData')
-            .removeClass('display')
-            .addClass('table table-striped table-bordered');
-
-    //alert("Ripple is used to animate the buttons a bit");
-    mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
-    // let table = new DataTable('#myTable');
+    $('#theData').DataTable({
+        order: [[0, 'desc']],
+        columnDefs: [{ targets: -1, orderable: false, searchable: false }],
+        language: {
+            emptyTable: 'No coffee orders found. Make sure the database is set up using resources/db/mysql/createDatabase.sql'
+        }
+    });
 });
